@@ -14,6 +14,16 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
+            /* Protección contra selección de texto */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            /* Protección contra arrastrar */
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
         }
         
         .container {
@@ -165,6 +175,11 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             background: white;
+            /* Permitir selección solo en campos de entrada */
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
         
         .input-field input:focus, .input-field select:focus {
@@ -572,6 +587,171 @@
             font-size: 0.85rem;
         }
         
+        /* Estilos para el modal de advertencia de seguridad */
+        #securityWarning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .security-modal {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+            border: 3px solid #fecaca;
+            animation: securityPulse 2s infinite;
+        }
+        
+        @keyframes securityPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        .security-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: securityBlink 1s infinite;
+        }
+        
+        @keyframes securityBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .security-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .security-message {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .security-warning {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #fecaca;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .security-button {
+            background: white;
+            color: #dc2626;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .security-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Estilos para el visor de PDF embebido */
+        #pdfPreviewContainer {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        #pdfPreviewContainer .pdf-header {
+            transition: all 0.3s ease;
+        }
+        
+        #pdfPreviewContainer .pdf-header:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        #pdfPreviewContainer .btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        #pdfPreviewContainer .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        #pdfPreviewContainer .pdf-viewer {
+            transition: all 0.3s ease;
+        }
+        
+        #pdfPreviewContainer .pdf-viewer:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* Responsividad para el visor de PDF */
+        @media (max-width: 768px) {
+            #pdfPreviewContainer {
+                padding: 10px;
+            }
+            
+            #pdfPreviewContainer .pdf-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            #pdfPreviewContainer .pdf-header .title {
+                font-size: 16px;
+            }
+            
+            #pdfPreviewContainer .pdf-viewer {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #pdfPreviewContainer {
+                padding: 5px;
+            }
+            
+            #pdfPreviewContainer .pdf-header {
+                padding: 10px 15px;
+            }
+            
+            #pdfPreviewContainer .pdf-header .title {
+                font-size: 14px;
+            }
+            
+            #pdfPreviewContainer .pdf-viewer {
+                height: 400px;
+            }
+            
+            #pdfPreviewContainer .btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+
         /* Responsividad */
         @media (max-width: 768px) {
             body {
@@ -1005,13 +1185,262 @@
         </div>
     </div>
 
+    <!-- Modal de Advertencia de Seguridad -->
+    <div id="securityWarning">
+        <div class="security-modal">
+            <div class="security-icon">🚫</div>
+            <div class="security-title">¡ACCESO DENEGADO!</div>
+            <div class="security-message">
+                Por motivos de seguridad, no está permitido acceder al código fuente de esta aplicación.
+            </div>
+            <div class="security-warning">
+                ⚠️ Esta aplicación está protegida contra ingeniería inversa y modificación no autorizada.
+            </div>
+            <button class="security-button" onclick="closeSecurityWarning()">
+                Entendido
+            </button>
+        </div>
+    </div>
+
     <!-- Librerías para generar códigos QR y PDF -->
     <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     
     <script>
+        // ========================================
+        // SISTEMA DE PROTECCIÓN DE SEGURIDAD
+        // ========================================
+        
         // Variables globales
         var currentStep = 1;
+        var securityAttempts = 0;
+        var maxSecurityAttempts = 3;
+        
+        // Función para mostrar advertencia de seguridad
+        function showSecurityWarning(message) {
+            securityAttempts++;
+            var warning = document.getElementById('securityWarning');
+            var modal = warning.querySelector('.security-modal');
+            
+            if (securityAttempts >= maxSecurityAttempts) {
+                modal.querySelector('.security-message').textContent = 
+                    'Se han detectado múltiples intentos de acceso no autorizado. ' +
+                    'La aplicación se cerrará por seguridad.';
+                modal.querySelector('.security-button').textContent = 'Cerrar Aplicación';
+                modal.querySelector('.security-button').onclick = function() {
+                    window.close();
+                };
+            } else {
+                modal.querySelector('.security-message').textContent = message;
+            }
+            
+            warning.style.display = 'flex';
+        }
+        
+        // Función para cerrar advertencia de seguridad
+        function closeSecurityWarning() {
+            document.getElementById('securityWarning').style.display = 'none';
+        }
+        
+        // Protección contra clic derecho
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showSecurityWarning('No está permitido acceder al menú contextual. Por seguridad, esta función está deshabilitada.');
+            return false;
+        });
+        
+        // Protección contra atajos de teclado
+        document.addEventListener('keydown', function(e) {
+            // F12 - Herramientas de desarrollador
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                showSecurityWarning('Las herramientas de desarrollador están deshabilitadas por seguridad.');
+                return false;
+            }
+            
+            // Ctrl+Shift+I - Herramientas de desarrollador
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                showSecurityWarning('Las herramientas de desarrollador están deshabilitadas por seguridad.');
+                return false;
+            }
+            
+            // Ctrl+U - Ver código fuente
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido ver el código fuente. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+            
+            // Ctrl+S - Guardar página
+            if (e.ctrlKey && e.keyCode === 83) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido guardar esta página. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+            
+            // Ctrl+A - Seleccionar todo
+            if (e.ctrlKey && e.keyCode === 65) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido seleccionar todo el contenido. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+            
+            // Ctrl+C - Copiar
+            if (e.ctrlKey && e.keyCode === 67) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido copiar contenido. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+            
+            // Ctrl+V - Pegar
+            if (e.ctrlKey && e.keyCode === 86) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido pegar contenido. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+            
+            // Ctrl+Shift+C - Inspector de elementos
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                showSecurityWarning('El inspector de elementos está deshabilitado por seguridad.');
+                return false;
+            }
+            
+            // Ctrl+Shift+J - Consola
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                showSecurityWarning('La consola de desarrollador está deshabilitada por seguridad.');
+                return false;
+            }
+        });
+        
+        // Protección contra arrastrar y soltar
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        document.addEventListener('drop', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Protección contra selección de texto
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Detección de herramientas de desarrollador
+        var devtools = {
+            open: false,
+            orientation: null
+        };
+        
+        var threshold = 160;
+        
+        setInterval(function() {
+            if (window.outerHeight - window.innerHeight > threshold || 
+                window.outerWidth - window.innerWidth > threshold) {
+                if (!devtools.open) {
+                    devtools.open = true;
+                    showSecurityWarning('Se han detectado herramientas de desarrollador abiertas. Por seguridad, ciertas funciones están restringidas.');
+                }
+            } else {
+                devtools.open = false;
+            }
+        }, 500);
+        
+        // Protección contra consola
+        var noop = function() {};
+        var methods = ['log', 'debug', 'info', 'warn', 'error', 'trace', 'dir', 'group', 'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'count', 'clear', 'assert'];
+        for (var i = 0; i < methods.length; i++) {
+            console[methods[i]] = noop;
+        }
+        
+        // Protección contra inspección de elementos
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73)) {
+                e.preventDefault();
+                showSecurityWarning('La inspección de elementos está deshabilitada por seguridad.');
+                return false;
+            }
+        });
+        
+        // Protección contra copia de texto
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            showSecurityWarning('No está permitido copiar contenido de esta aplicación. Por seguridad, esta función está deshabilitada.');
+            return false;
+        });
+        
+        // Protección contra impresión
+        window.addEventListener('beforeprint', function(e) {
+            e.preventDefault();
+            showSecurityWarning('La impresión de esta página está deshabilitada por seguridad.');
+            return false;
+        });
+        
+        // Protección contra guardar como
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 83) {
+                e.preventDefault();
+                showSecurityWarning('No está permitido guardar esta página. Por seguridad, esta función está deshabilitada.');
+                return false;
+            }
+        });
+        
+        // Mensaje de advertencia en consola
+        console.clear();
+        console.log('%c¡ADVERTENCIA DE SEGURIDAD!', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log('%cEsta aplicación está protegida contra ingeniería inversa.', 'color: orange; font-size: 14px;');
+        console.log('%cCualquier intento de modificación será detectado y reportado.', 'color: red; font-size: 12px;');
+        
+        // Protección adicional contra inspección de elementos
+        document.addEventListener('keydown', function(e) {
+            // Detectar intentos de abrir herramientas de desarrollador
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+                (e.ctrlKey && e.shiftKey && e.keyCode === 67) ||
+                (e.ctrlKey && e.shiftKey && e.keyCode === 74)) {
+                e.preventDefault();
+                e.stopPropagation();
+                showSecurityWarning('Acceso denegado: Las herramientas de desarrollador están deshabilitadas por seguridad.');
+                return false;
+            }
+        });
+        
+        // Protección contra modificación del DOM
+        var originalAppendChild = Node.prototype.appendChild;
+        var originalInsertBefore = Node.prototype.insertBefore;
+        var originalRemoveChild = Node.prototype.removeChild;
+        
+        Node.prototype.appendChild = function(child) {
+            if (child.tagName === 'SCRIPT' && child.src === '') {
+                showSecurityWarning('Intento de inyección de código detectado. Acción bloqueada por seguridad.');
+                return this;
+            }
+            return originalAppendChild.call(this, child);
+        };
+        
+        // Protección contra evaluación de código
+        var originalEval = window.eval;
+        window.eval = function(code) {
+            showSecurityWarning('Evaluación de código JavaScript bloqueada por seguridad.');
+            return null;
+        };
+        
+        // Protección contra Function constructor
+        var originalFunction = window.Function;
+        window.Function = function() {
+            showSecurityWarning('Creación de funciones dinámicas bloqueada por seguridad.');
+            return function() {};
+        };
+        
+        // ========================================
+        // FIN DEL SISTEMA DE PROTECCIÓN
+        // ========================================
         
         // Función para navegar al siguiente paso
         function nextStep(step) {
@@ -1900,99 +2329,157 @@
                 // Generar nombre del archivo
                 var fileName = 'Calificacion_' + nombreCompleto.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_') + '_' + parcial + '_' + new Date().getFullYear() + '.pdf';
                 
-                // Crear previsualización
+                // Crear previsualización embebida
                 var pdfBlob = doc.output('blob');
                 var pdfUrl = URL.createObjectURL(pdfBlob);
                 
-                // Abrir ventana de previsualización
-                var previewWindow = window.open('', '_blank', 'width=900,height=700,scrollbars=yes,resizable=yes');
-                previewWindow.document.write(`
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Previsualización - ${fileName}</title>
-                        <style>
-                            body { 
-                                margin: 0; 
-                                padding: 20px; 
-                                font-family: Arial, sans-serif; 
-                                background: #f5f5f5;
-                            }
-                            .header {
-                                background: white;
-                                padding: 15px;
-                                border-radius: 8px;
-                                margin-bottom: 20px;
-                                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                            }
-                            .title {
-                                font-size: 18px;
-                                font-weight: bold;
-                                color: #2d3748;
-                            }
-                            .buttons {
-                                display: flex;
-                                gap: 10px;
-                            }
-                            .btn {
-                                padding: 10px 20px;
-                                border: none;
-                                border-radius: 6px;
-                                cursor: pointer;
-                                font-weight: bold;
-                                text-decoration: none;
-                                display: inline-block;
-                            }
-                            .btn-download {
-                                background: #10b981;
-                                color: white;
-                            }
-                            .btn-download:hover {
-                                background: #059669;
-                            }
-                            .btn-close {
-                                background: #6b7280;
-                                color: white;
-                            }
-                            .btn-close:hover {
-                                background: #4b5563;
-                            }
-                            .pdf-container {
-                                background: white;
-                                border-radius: 8px;
-                                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                                overflow: hidden;
-                            }
-                            iframe {
-                                width: 100%;
-                                height: 600px;
-                                border: none;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="header">
-                            <div class="title">📄 Previsualización del PDF - ${fileName}</div>
-                            <div class="buttons">
-                                <a href="${pdfUrl}" download="${fileName}" class="btn btn-download">📥 Descargar PDF</a>
-                                <button onclick="window.close()" class="btn btn-close">✖️ Cerrar</button>
-                            </div>
-                        </div>
-                        <div class="pdf-container">
-                            <iframe src="${pdfUrl}"></iframe>
-                        </div>
-                    </body>
-                    </html>
-                `);
+                // Crear contenedor para el PDF embebido
+                var pdfContainer = document.createElement('div');
+                pdfContainer.id = 'pdfPreviewContainer';
+                pdfContainer.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    z-index: 10000;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                    box-sizing: border-box;
+                `;
                 
-                console.log('PDF generado y previsualizado correctamente');
+                // Crear header del PDF
+                var pdfHeader = document.createElement('div');
+                pdfHeader.className = 'pdf-header';
+                pdfHeader.style.cssText = `
+                    background: white;
+                    padding: 15px 20px;
+                    border-radius: 8px 8px 0 0;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+                    max-width: 900px;
+                    box-sizing: border-box;
+                `;
+                
+                var title = document.createElement('div');
+                title.className = 'title';
+                title.style.cssText = `
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #2d3748;
+                `;
+                title.textContent = '📄 Previsualización del PDF - ' + fileName;
+                
+                var buttonContainer = document.createElement('div');
+                buttonContainer.style.cssText = `
+                    display: flex;
+                    gap: 10px;
+                `;
+                
+                // Botón de descarga
+                var downloadBtn = document.createElement('a');
+                downloadBtn.className = 'btn';
+                downloadBtn.href = pdfUrl;
+                downloadBtn.download = fileName;
+                downloadBtn.style.cssText = `
+                    padding: 10px 20px;
+                    background: #10b981;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    text-decoration: none;
+                    display: inline-block;
+                `;
+                downloadBtn.textContent = '📥 Descargar PDF';
+                downloadBtn.onmouseover = function() { this.style.background = '#059669'; };
+                downloadBtn.onmouseout = function() { this.style.background = '#10b981'; };
+                
+                // Botón de cerrar
+                var closeBtn = document.createElement('button');
+                closeBtn.className = 'btn';
+                closeBtn.style.cssText = `
+                    padding: 10px 20px;
+                    background: #6b7280;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: bold;
+                `;
+                closeBtn.textContent = '✖️ Cerrar';
+                closeBtn.onmouseover = function() { this.style.background = '#4b5563'; };
+                closeBtn.onmouseout = function() { this.style.background = '#6b7280'; };
+                closeBtn.onclick = function() {
+                    document.body.removeChild(pdfContainer);
+                    URL.revokeObjectURL(pdfUrl);
+                };
+                
+                buttonContainer.appendChild(downloadBtn);
+                buttonContainer.appendChild(closeBtn);
+                pdfHeader.appendChild(title);
+                pdfHeader.appendChild(buttonContainer);
+                
+                // Crear contenedor del PDF
+                var pdfViewer = document.createElement('div');
+                pdfViewer.className = 'pdf-viewer';
+                pdfViewer.style.cssText = `
+                    background: white;
+                    border-radius: 0 0 8px 8px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                    overflow: hidden;
+                    width: 100%;
+                    max-width: 900px;
+                    height: 600px;
+                    box-sizing: border-box;
+                `;
+                
+                var iframe = document.createElement('iframe');
+                iframe.src = pdfUrl;
+                iframe.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                `;
+                
+                pdfViewer.appendChild(iframe);
+                pdfContainer.appendChild(pdfHeader);
+                pdfContainer.appendChild(pdfViewer);
+                
+                // Agregar al body
+                document.body.appendChild(pdfContainer);
+                
+                // Cerrar al hacer clic fuera del contenedor
+                pdfContainer.onclick = function(e) {
+                    if (e.target === pdfContainer) {
+                        document.body.removeChild(pdfContainer);
+                        URL.revokeObjectURL(pdfUrl);
+                    }
+                };
+                
+                // Cerrar con la tecla Escape
+                var escapeHandler = function(e) {
+                    if (e.key === 'Escape' || e.keyCode === 27) {
+                        document.body.removeChild(pdfContainer);
+                        URL.revokeObjectURL(pdfUrl);
+                        document.removeEventListener('keydown', escapeHandler);
+                    }
+                };
+                document.addEventListener('keydown', escapeHandler);
+                
+                console.log('PDF generado y mostrado embebido correctamente');
                 
                 // Mostrar mensaje de éxito
                 setTimeout(function() {
-                    alert('PDF generado exitosamente!\n\nArchivo: ' + fileName + '\nSe ha abierto una ventana de previsualización\nPuedes descargarlo desde la ventana emergente');
+                    alert('PDF generado exitosamente!\n\nArchivo: ' + fileName + '\nEl PDF se muestra en la misma ventana\nPuedes descargarlo o cerrar la vista previa');
                 }, 500);
                 
             } catch (error) {
