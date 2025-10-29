@@ -974,7 +974,7 @@
             
             <!-- Paso 2: Configuración de Ponderaciones -->
             <div class="section" id="section2">
-                <h3>⚙️ Configuración de Ponderaciones</h3>
+                <h3>⚙️ Configuración de Ponderaciones <button id="lockToggle" title="Desbloquear edición" style="margin-left: 8px; padding: 4px 8px; font-size: 0.85rem; background:#0ea5e9; color:white; border:none; border-radius:6px; cursor:pointer;">🔒</button></h3>
                 <div class="input-group">
                     <div class="input-field">
                         <label for="ponderacionAsistencias">% Asistencias</label>
@@ -982,13 +982,13 @@
                     </div>
                     <div class="input-field">
                         <label for="ponderacionParticipaciones">% Participaciones</label>
-                        <input type="number" id="ponderacionParticipaciones" min="0" max="100" value="40" step="1" required readonly style="background-color: #f8fafc; cursor: not-allowed;">
+                        <input type="number" id="ponderacionParticipaciones" min="0" max="100" value="50" step="1" required readonly style="background-color: #f8fafc; cursor: not-allowed;">
                     </div>
                 </div>
                 <div class="input-group">
                     <div class="input-field">
                         <label for="ponderacionEvaluaciones">% Evaluaciones</label>
-                        <input type="number" id="ponderacionEvaluaciones" min="0" max="100" value="50" step="1" required readonly style="background-color: #f8fafc; cursor: not-allowed;">
+                        <input type="number" id="ponderacionEvaluaciones" min="0" max="100" value="40" step="1" required readonly style="background-color: #f8fafc; cursor: not-allowed;">
                     </div>
                     <div class="input-field">
                         <div class="percentage-display" id="totalPonderacion" style="margin-top: 25px;">
@@ -1000,7 +1000,7 @@
                 <div style="background: #e0f2fe; border: 1px solid #0288d1; border-radius: 10px; padding: 15px; margin-top: 20px;">
                     <p style="margin: 0; color: #01579b; font-size: 0.9rem; font-weight: 600;">
                         ℹ️ <strong>Ponderaciones automáticas por parcial:</strong><br>
-                        • Primer y Segundo Parcial: 10% Asistencias, 40% Participaciones, 50% Evaluaciones<br>
+                        • Primer y Segundo Parcial: 10% Asistencias, 50% Participaciones, 40% Evaluaciones<br>
                         • Tercer Parcial: 20% Asistencias, 40% Participaciones, 40% Evaluaciones
                     </p>
                 </div>
@@ -1035,7 +1035,7 @@
                 
                 <!-- Participaciones -->
                 <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                    <h4 id="participacionesTitle" style="margin: 0 0 15px 0; color: #059669;">🙋‍♂️ Participaciones (40%)</h4>
+                    <h4 id="participacionesTitle" style="margin: 0 0 15px 0; color: #059669;">🙋‍♂️ Participaciones (50%)</h4>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="totalParticipaciones">Participaciones Posibles</label>
@@ -1053,7 +1053,7 @@
                 
                 <!-- Evaluaciones -->
                 <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                    <h4 id="evaluacionesTitle" style="margin: 0 0 15px 0; color: #059669;">📝 Evaluaciones (50%)</h4>
+                    <h4 id="evaluacionesTitle" style="margin: 0 0 15px 0; color: #059669;">📝 Evaluaciones (40%)</h4>
                     <div class="input-group">
                         <div class="input-field">
                             <label for="totalEvaluaciones">Evaluaciones Posibles</label>
@@ -1144,14 +1144,14 @@
                     </div>
                     <div class="breakdown-item">
                         <div>
-                            <span class="breakdown-label" id="breakdownParticipaciones">Participaciones (40%)</span>
+                            <span class="breakdown-label" id="breakdownParticipaciones">Participaciones (50%)</span>
                             <div class="breakdown-detail" id="participacionesDetail">0 de 0 puntos</div>
                         </div>
                         <span class="breakdown-score" id="participacionesScore">0</span>
                     </div>
                     <div class="breakdown-item">
                         <div>
-                            <span class="breakdown-label" id="breakdownEvaluaciones">Evaluaciones (50%)</span>
+                            <span class="breakdown-label" id="breakdownEvaluaciones">Evaluaciones (40%)</span>
                             <div class="breakdown-detail" id="evaluacionesDetail">0 de 0 puntos</div>
                         </div>
                         <span class="breakdown-score" id="evaluacionesScore">0</span>
@@ -1639,25 +1639,93 @@
         
         // Función para actualizar ponderaciones según el parcial seleccionado
         function updatePonderacionesPorParcial() {
+            if (typeof isPonderacionesLocked === 'undefined' || isPonderacionesLocked === null) {
+                isPonderacionesLocked = true;
+            }
             var parcial = document.getElementById('parcial').value;
             var asistenciasInput = document.getElementById('ponderacionAsistencias');
             var participacionesInput = document.getElementById('ponderacionParticipaciones');
             var evaluacionesInput = document.getElementById('ponderacionEvaluaciones');
             
-            if (parcial === 'Primero' || parcial === 'Segundo') {
-                // Primer y Segundo Parcial: 10%, 40%, 50%
-                asistenciasInput.value = '10';
-                participacionesInput.value = '40';
-                evaluacionesInput.value = '50';
-            } else if (parcial === 'Tercero') {
-                // Tercer Parcial: 20%, 40%, 40%
-                asistenciasInput.value = '20';
-                participacionesInput.value = '40';
-                evaluacionesInput.value = '40';
+            if (isPonderacionesLocked) {
+                if (parcial === 'Primero' || parcial === 'Segundo') {
+                    // Primer y Segundo Parcial: 10%, 50%, 40%
+                    asistenciasInput.value = '10';
+                    participacionesInput.value = '50';
+                    evaluacionesInput.value = '40';
+                } else if (parcial === 'Tercero') {
+                    // Tercer Parcial: 20%, 40%, 40%
+                    asistenciasInput.value = '20';
+                    participacionesInput.value = '40';
+                    evaluacionesInput.value = '40';
+                }
             }
             
             // Actualizar la interfaz
             updatePonderaciones();
+        }
+
+        // --- Seguridad y desbloqueo de edición de ponderaciones ---
+        var isPonderacionesLocked = true;
+        var expectedHashHex = null;
+        var PONDER_SALT = 'POND-2025';
+
+        function reconstructSecret() {
+            var codes = [78,117,101,118,97,80,111,110,100,101,114,97,99,105,243,110,65,100,109,105,110,49,50,51,46];
+            var chars = [];
+            for (var i = 0; i < codes.length; i++) { chars.push(String.fromCharCode(codes[i])); }
+            return chars.join('');
+        }
+
+        async function sha256Hex(str) {
+            var data = new TextEncoder().encode(str);
+            var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            var hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+        }
+
+        function setPonderacionesReadonly(readonly) {
+            var ids = ['ponderacionAsistencias','ponderacionParticipaciones','ponderacionEvaluaciones'];
+            for (var i = 0; i < ids.length; i++) {
+                var el = document.getElementById(ids[i]);
+                if (!el) continue;
+                el.readOnly = readonly;
+                el.style.backgroundColor = readonly ? '#f8fafc' : '#ffffff';
+                el.style.cursor = readonly ? 'not-allowed' : 'text';
+            }
+        }
+
+        async function handleLockToggle() {
+            if (isPonderacionesLocked) {
+                var input = window.prompt('🔐 Ingrese la contraseña de administrador para editar las ponderaciones:');
+                if (input === null || input === '') return;
+                try {
+                    var hashInput = await sha256Hex(PONDER_SALT + input);
+                    if (!expectedHashHex) {
+                        // Calcular hash esperado en tiempo de ejecución a partir de secreto ofuscado
+                        expectedHashHex = await sha256Hex(PONDER_SALT + reconstructSecret());
+                    }
+                    if (hashInput === expectedHashHex) {
+                        isPonderacionesLocked = false;
+                        setPonderacionesReadonly(false);
+                        var btn = document.getElementById('lockToggle');
+                        if (btn) { btn.textContent = '🔓'; btn.title = 'Bloquear edición'; }
+                        alert('Edición de ponderaciones habilitada.');
+                    } else {
+                        alert('Contraseña incorrecta.');
+                    }
+                } catch (e) {
+                    alert('No se pudo verificar la contraseña en este navegador.');
+                }
+            } else {
+                isPonderacionesLocked = true;
+                setPonderacionesReadonly(true);
+                var b = document.getElementById('lockToggle');
+                if (b) { b.textContent = '🔒'; b.title = 'Desbloquear edición'; }
+                alert('Edición de ponderaciones bloqueada.');
+                // Al relockear, re-aplicar esquema automático según parcial seleccionado
+                updatePonderacionesPorParcial();
+            }
         }
         
         // Inicialización cuando se carga la página
@@ -1683,6 +1751,14 @@
             updatePonderacionesPorParcial();
             updatePonderaciones();
             updatePercentages();
+
+            // Configurar botón de bloqueo
+            var lockBtn = document.getElementById('lockToggle');
+            if (lockBtn) {
+                lockBtn.addEventListener('click', function() { handleLockToggle(); });
+            }
+            // Asegurar que los campos inicien bloqueados
+            setPonderacionesReadonly(true);
         });
         
         // Función para calcular la calificación
@@ -1885,8 +1961,8 @@
             document.getElementById('asignatura').value = '';
             document.getElementById('grupoAsignatura').value = '';
             document.getElementById('ponderacionAsistencias').value = '10';
-            document.getElementById('ponderacionParticipaciones').value = '40';
-            document.getElementById('ponderacionEvaluaciones').value = '50';
+            document.getElementById('ponderacionParticipaciones').value = '50';
+            document.getElementById('ponderacionEvaluaciones').value = '40';
             document.getElementById('totalAsistencias').value = '';
             document.getElementById('asistenciasObtenidas').value = '';
             document.getElementById('totalParticipaciones').value = '';
@@ -1929,8 +2005,8 @@
                 
                 // Obtener ponderaciones
                 var ponderacionAsistencias = parseFloat(document.getElementById('ponderacionAsistencias').value) || 10;
-                var ponderacionParticipaciones = parseFloat(document.getElementById('ponderacionParticipaciones').value) || 40;
-                var ponderacionEvaluaciones = parseFloat(document.getElementById('ponderacionEvaluaciones').value) || 50;
+                var ponderacionParticipaciones = parseFloat(document.getElementById('ponderacionParticipaciones').value) || 50;
+                var ponderacionEvaluaciones = parseFloat(document.getElementById('ponderacionEvaluaciones').value) || 40;
                 
                 // Obtener datos de evaluación
                 var totalAsistencias = parseFloat(document.getElementById('totalAsistencias').value) || 0;
